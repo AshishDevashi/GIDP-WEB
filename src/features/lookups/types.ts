@@ -23,6 +23,25 @@ export type LookupTable = {
   rows: LookupRow[];
 };
 
+export const lifecycleSchema = z.object({
+  id: z.number(),
+  code: z.string(),
+  label: z.string(),
+});
+
+export const tierSchema = z.object({
+  id: z.number(),
+  code: z.string(),
+  description: z.string(),
+  paging_policy: z.string(),
+});
+
+export const lifecycleListSchema = z.array(lifecycleSchema);
+export const tierListSchema = z.array(tierSchema);
+
+export type Lifecycle = z.infer<typeof lifecycleSchema>;
+export type Tier = z.infer<typeof tierSchema>;
+
 export function titleize(value: string) {
   return value
     .replace(/[_-]+/g, " ")
