@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,30 +13,36 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDeleteProject } from "@/features/projects/hooks";
-import type { Project } from "@/features/projects/types";
+import { useDeleteRepo } from "@/features/repos/hooks";
+import type { Repo } from "@/features/repos/types";
 
-export function DeleteProjectDialog({ project }: { project: Project }) {
+export function DeleteRepoDialog({
+  repo,
+  redirectToList = false,
+}: {
+  repo: Repo;
+  redirectToList?: boolean;
+}) {
   const [open, setOpen] = useState(false);
-  const { mutate, isPending } = useDeleteProject(() => setOpen(false));
+  const router = useRouter();
+  const { mutate, isPending } = useDeleteRepo(() => {
+    setOpen(false);
+    if (redirectToList) router.push("/repos");
+  });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label={`Delete ${project.name}`}
-        >
+        <Button variant="ghost" size="icon" aria-label={`Delete ${repo.name}`}>
           <Trash2 className="text-danger h-4 w-4" />
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete {project.name}?</DialogTitle>
+          <DialogTitle>Delete {repo.name}?</DialogTitle>
           <DialogDescription>
-            This permanently removes the project and cannot be undone.
+            This permanently removes the repository and cannot be undone.
           </DialogDescription>
         </DialogHeader>
 
@@ -46,7 +53,7 @@ export function DeleteProjectDialog({ project }: { project: Project }) {
           <Button
             variant="danger"
             disabled={isPending}
-            onClick={() => mutate(project.id)}
+            onClick={() => mutate(repo.id)}
           >
             {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             Delete

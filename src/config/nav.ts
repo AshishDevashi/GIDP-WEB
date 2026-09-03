@@ -1,6 +1,7 @@
 import {
+  Container,
   Database,
-  FolderGit2,
+  GitBranch,
   LayoutDashboard,
   Users,
   type LucideIcon,
@@ -19,7 +20,8 @@ export const siteConfig = {
 
 export const mainNav: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Projects", href: "/projects", icon: FolderGit2 },
+  { title: "Repos", href: "/repos", icon: GitBranch },
+  { title: "Registries", href: "/registries", icon: Container },
   { title: "Teams", href: "/teams", icon: Users },
   { title: "Lookups", href: "/lookups", icon: Database },
 ];
