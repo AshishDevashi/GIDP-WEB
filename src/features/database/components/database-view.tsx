@@ -94,7 +94,7 @@ function DetailItem({
       <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">
         {label}
       </p>
-      <p className="break-words text-sm font-medium">{valueOrDash(value)}</p>
+      <p className="wrap-break-word text-sm font-medium">{valueOrDash(value)}</p>
     </div>
   );
 }
